@@ -30,7 +30,7 @@ def process(transaction_value):
     tags=['DE']
     )
 
-def task_flow_demo():
+def task_flow_api_dag_demo():
     process(extract())
 
-task_flow_demo()
+task_flow_api_dag_demo()
