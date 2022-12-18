@@ -3,7 +3,7 @@ from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
 
-default_args= {'Owner':'jsharma',
+default_args= {'owner':'jsharma',
     'email':'my@gmail.com'}
 
 with DAG(dag_id="hello_world",
