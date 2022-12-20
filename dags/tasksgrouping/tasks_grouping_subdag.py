@@ -28,7 +28,7 @@ def extract():
 def task_groups_subdag_demo():
     process_tasks=SubDagOperator(
         task_id="process_tasks",
-        subdag=subdag_factory('task_groups_dag_demo',
+        subdag=subdag_factory('task_groups_subdag_demo',
         "process_tasks",
         default_args)
     )
