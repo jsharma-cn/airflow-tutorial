@@ -44,3 +44,15 @@ def process_tasks(transaction_details):
         process_3(transaction_details['transaction_value']) >> test_tasks
         
     return process_tasks
+
+def dynamic_process_tasks(transaction_details):
+    with TaskGroup(group_id="dynamic_process_tasks", add_suffix_on_collision=True) as dynamic_process_tasks:
+        with TaskGroup(group_id = 'test_tasks') as test_tasks:
+            child_1()
+            child_2()
+            child_3()
+        process_1(transaction_details['transaction_value']) >> test_tasks
+        process_2(transaction_details['transaction_value']) >> test_tasks
+        process_3(transaction_details['transaction_value']) >> test_tasks
+        
+    return dynamic_process_tasks
