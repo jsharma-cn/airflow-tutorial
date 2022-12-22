@@ -24,6 +24,11 @@ def _failed_func(context):
 def _retry_func(context):
     print("Wow, I am called",context) 
 
+def _sla_miss_callback_func(dag, task_list, blocking_list, slas, blocking_tis):
+    print('SLA missed',task_list)
+    print('SLA missed',blocking_list)
+    print('SLA missed',slas)
+
 with DAG(dag_id="callback",
     default_args=default_args,
     start_date=datetime(2022,1,1),
@@ -33,7 +38,8 @@ with DAG(dag_id="callback",
     catchup=False,
     tags=['DE'],
     on_success_callback=_success_func,
-    on_failure_callback=_failed_func
+    on_failure_callback=_failed_func,
+    sla_miss_callback=_sla_miss_callback_func
     ) as dag:
     
     t1 = PythonOperator(
@@ -57,6 +63,6 @@ with DAG(dag_id="callback",
         on_retry_callback=_retry_func
     )
     start = DummyOperator(task_id="start")
-    stop = DummyOperator(task_id="stop")
+    stop = DummyOperator(task_id="stop", sla=timedelta(minutes = 5))
     
     chain(start, [t1,t2], stop)
