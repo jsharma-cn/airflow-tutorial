@@ -18,8 +18,9 @@ with DAG(dag_id = "dependecny_tasks",
     task4 = DummyOperator(task_id="task4")
     task5 = DummyOperator(task_id="task5")
     task6 = DummyOperator(task_id="task6")
+    task7 = DummyOperator(task_id="task7")
 
     #[task1,task2,task3] >> task6
-    #cross_downstream([task1,task2,task3] , [task4,task5,task6])
+    cross_downstream([task1, task2] , [task7])
     chain(task1,[task2,task3], [task4,task5], task6)
 
