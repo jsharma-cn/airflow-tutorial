@@ -22,23 +22,12 @@ with DAG(dag_id="dependent_dag",
     tags=["DE"]
     ) as dag:
 
-    """
     external_task_op = ExternalTaskSensor(task_id="waiting_task",
         external_dag_id="MyParentDag",
         external_task_id='my_func',
         failed_states=['failed','skipped'],
         allowed_states=['success']
         )
-        """
-    trigger_ops = TriggerDagRunOperator(
-        task_id='clicking_to_run',
-        trigger_dag_id='MyParentDag',
-        execution_date='{{ds}}',
-        wait_for_completion = True,
-        poke_interval = 60,
-        reset_dag_run = True,
-        failed_states=['failed']
-    )
     
     myOp = PythonOperator(task_id='my_func',
         python_callable=_my_func
@@ -46,8 +35,7 @@ with DAG(dag_id="dependent_dag",
 
     stop= DummyOperator(task_id = 'stop')
 
-#myOp >> external_task_op >> stop
-myOp >> trigger_ops >> stop
+myOp >> external_task_op >> stop
 
 
 
