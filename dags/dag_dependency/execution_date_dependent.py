@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator, get_current_context
 from airflow.operators.dummy import DummyOperator
-from datetime import datetime
+from datetime import datetime, timedelta
 from airflow.sensors.external_task import ExternalTaskSensor
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 
@@ -25,6 +25,8 @@ with DAG(dag_id="dependent_dag",
     external_task_op = ExternalTaskSensor(task_id="waiting_task",
         external_dag_id="MyParentDag",
         external_task_id='my_func',
+        #difference time schedule
+        #execution_delta =timedelta(minutes =3), 
         failed_states=['failed','skipped'],
         allowed_states=['success']
         )
